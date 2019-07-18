@@ -8,4 +8,4 @@ An extension module to facilitate API Models and functionality.
 :license: MIT, see LICENSE for more details.
 """
 
-from .objects import Account, Blog, Competitor, Player, Records, Team
+#from .objects import Account, Blog, Competitor, Player, Records, Team

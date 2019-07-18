@@ -1,5 +1,5 @@
 import requests
-
+from . import driver
 class Account(object):
     """Overwatch League teams and players each have their social media accounts for interacting with fans. Each Account object has an account ID, an account type, and an account URL."""
     def __init__(self, id, type, url):
@@ -78,37 +78,33 @@ class Competitor(object):
     pass
 
 
-class Team(Competitor):
-    def __init__(self, id, availableLanguages, homeLocation, addressCountry, \
-                game, handle, name, abbreviatedName, \
-                primaryColor, secondaryColor, logo, icon, secondaryPhoto, \
-                players, attributes, attributesVersion, type, \
-                website=None, placement=None, advantage=None, ranking=None, schedule=None, aboutUrl=None, \
-                description=None, accounts=None, location=None):
-        """Model for a competitor/team and associated information"""
-        # d = Driver()
+class Team(object):
+    def __init__(self, id, divisionId, handle, name, abbreviatedName, logo, \
+                hasFallback, location, players, colors, accounts, website, \
+                placement, advantage, records):
+        """Model for a team and associated information"""
+        self.driver = driver.Driver()
         self.id = id
-        self.availableLanguages = availableLanguages
+        self.divisionId = divisionId
         self.handle = handle
         self.name = name
         self.abbreviatedName = abbreviatedName
         self.logo = logo
-        # self.hasFallback = hasFallback
+        self.hasFallback = hasFallback
         self.location = location
         self.players = []
         for p in players:
-            # self.players.append(d.get_player(p["id"]))
-            #self.players.append(Player(**p))
+            self.players.append(self.driver.get_player_by_id(p["id"]))
             pass
+        self.colors = Colors(colors["primary"], colors["secondary"], colors["tertiary"])
         self.accounts = []
         if accounts is not None:
             for a in accounts:
-                pass
-                #self.accounts.append(Account(**a))
+                self.accounts.append(Account(**a))
         self.website = website
         self.placement = placement
         self.advantage = advantage
-        #self.records = Records(records)
+        self.records = Records(**records)
     pass
 
 class Game(object):
@@ -130,9 +126,10 @@ class Nextmatch(object):
     pass
 
 class Player(object):
-    def __init__(self, id, availableLanguages, handle, name, homeLocation, accounts, \
-                game, attributes, attributesVersion, familyName, givenName, \
-                nationality, headshot, type, teams):
+    def __init__(self, id, name, homeLocation, accounts, headshot, \
+                availableLanguages=None, role=None, fullName=None, number=None, \
+                game=None, attributes=None, attributesVersion=None, familyName=None, givenName=None, \
+                nationality=None, type=None, teams=None, handle=None):
         """A Player is a member of a competing Overwatch League team"""
         self.id = id
         self.availableLanguages = availableLanguages
@@ -150,7 +147,7 @@ class Player(object):
         self.teams = teams
         self.type = type
     
-    def formatedName(self):
+    def formattedName(self):
         return("{}. {} (A.K.A {})".format(self.givenName[0], self.familyName, self.name))
 
 

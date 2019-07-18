@@ -1,22 +1,37 @@
 import requests
-import OWLPy.models
-import OWLPy.errors
+from OWLPy.objects import Player, Team
+from OWLPy.errors import *
 
 class Driver(object):
     """An Object for controlling API functions"""
     def __init__(self):
         self.baseurl = "https://api.overwatchleague.com/"
     
-    def test(self, route=None):
-        return requests.get("{}/{}".format(self.baseurl, route))
-    
+    # Acquire Players
     def get_player_by_id(self, id): 
         r = requests.get("{}/player/{}".format(self.baseurl, id)).json()["data"]["player"]
-        return OWLPy.models.Player(**r)
+        return Player(**r)
 
     def get_player_by_name(self, name): 
         r = requests.get("{}/players".format(self.baseurl)).json()["content"]
         for p in r:
             if p["name"] == name:
-                return OWLPy.models.Player(**p)
-        raise OWLPy.errors.PlayerNotFound()
+                return Player(**p)
+        raise PlayerNotFound()
+
+
+    # Acquire Teams
+    def get_team_by_id(self, id):
+        r = requests.get("{}/v2/teams/{}".format(self.baseurl, id)).json()["data"]
+        return Team(**r)
+
+    def get_team_by_name(self, name): 
+        r = requests.get("{}/v2/teams".format(self.baseurl)).json()["data"]
+        for t in r:
+            if t["name"] == name:
+                team = self.get_team_by_id(t["id"])
+                return team
+        raise TeamNotFound()
+
+    
+    
