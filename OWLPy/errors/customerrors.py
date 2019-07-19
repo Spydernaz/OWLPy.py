@@ -14,3 +14,7 @@ class PlayerNotFound(NotFound):
 class TeamNotFound(NotFound):
    """Raised when the input value is too large"""
    pass
+
+class MatchNotFound(NotFound):
+   """Raised when the input value is too large"""
+   pass

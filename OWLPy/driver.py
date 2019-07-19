@@ -1,5 +1,5 @@
 import requests
-from OWLPy.objects import Player, Team
+from OWLPy.objects import Player, Team, Match
 from OWLPy.errors import *
 
 class Driver(object):
@@ -34,4 +34,15 @@ class Driver(object):
         raise TeamNotFound()
 
     
-    
+    # Acquire Players
+    def get_match_by_id(self, id): 
+        r = requests.get("{}/match/{}".format(self.baseurl, id)).json()
+        return Match(**r)
+
+    def get_match_by_name(self, name): 
+        r = requests.get("{}/players".format(self.baseurl)).json()["content"]
+        for m in r:
+            if m["name"] == name:
+                return Match(**m)
+        raise MatchNotFound()
+

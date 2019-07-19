@@ -46,12 +46,7 @@ class Colors(object):
         self.tertiary = tertiary
 
 class Competitor(object):
-    def __init__(self, id, availableLanguages, homeLocation, addressCountry, \
-                game, handle, name, abbreviatedName, \
-                primaryColor, secondaryColor, logo, icon, secondaryPhoto, \
-                players, attributes, attributesVersion, type, \
-                website=None, placement=None, advantage=None, ranking=None, schedule=None, aboutUrl=None, \
-                description=None, accounts=None, location=None):
+    def __init__(self, ):
         """Model for a competitor/team and associated information"""
         self.id = id
         self.availableLanguages = availableLanguages
@@ -78,7 +73,7 @@ class Competitor(object):
     pass
 
 
-class Team(object):
+class Team(Competitor):
     def __init__(self, id, divisionId, handle, name, abbreviatedName, logo, \
                 hasFallback, location, players, colors, accounts, website, \
                 placement, advantage, records):
@@ -110,23 +105,65 @@ class Team(object):
 class Game(object):
     pass
 
-class Gamemode(object):
+class GameMode(object):
     pass
 
-class Livematch(object):
+class Match(object):
+    def __init__(self, id, competitors, scores, round, ordinal, winnersNextMatch, winnerRound, \
+                winnerOrdinal, bestOf, conclusionValue, conclusionStrategy, winner, home, \
+                state, status, statusReason, attributes, games, clientHints, bracket, dateCreated, \
+                flags, handle, competitorStatuses, timeZone, actualStartDate, actualEndDate, \
+                startDate, endDate, showStartTime, showEndTime, rankings, meta):
+        """An Overwatch League Match consists of 4 games taking place in four different maps and game modes. Matches are normally determined with a "Best of" conclusion strategy"""
+        self.driver = driver.Driver()
+        self.id = id
+        self.competitors = []
+        for c in competitors:
+            self.competitors.append(self.driver.get_team_by_id(c["id"]))
+        self.scores = scores
+        self.round = round
+        self.ordinal = ordinal
+        self.winnersNextMatch = winnersNextMatch
+        self.winnerRound = winnerRound
+        self.winnerOrdinal = winnerOrdinal
+        self.bestOf = bestOf
+        self.conclusionValue = conclusionValue
+        self.conclusionStrategy = conclusionStrategy
+        self.winner = winner
+        self.home = home
+        self.state = state
+        self.status = status
+        self.statusReason = statusReason
+        self.attributes = attributes
+        self.games = games
+        self.clientHints = clientHints
+        self.bracket = bracket
+        self.dateCreated = dateCreated
+        self.flags = flags
+        self.handle = handle
+        self.competitorStatuses = competitorStatuses, timeZone
+        self.actualStartDate = actualStartDate
+        self.actualEndDate = actualEndDate
+        self.startDate = startDate
+        self.endDate = endDate
+        self.showStartTime = showStartTime
+        self.showEndTime = showEndTime
+        self.rankings = rankings
+        self.meta = meta
+        pass
+    pass
+
+class LiveMatch(Match):
     pass
 
 class Logo(object):
     pass
 
-class Match(object):
-    pass
-
-class Nextmatch(object):
+class NextMatch(Match):
     pass
 
 class Player(object):
-    def __init__(self, id, name, homeLocation, accounts, headshot, \
+    def __init__(self, id, name, accounts, headshot, homeLocation=None, \
                 availableLanguages=None, role=None, fullName=None, number=None, \
                 game=None, attributes=None, attributesVersion=None, familyName=None, givenName=None, \
                 nationality=None, type=None, teams=None, handle=None):
@@ -144,7 +181,7 @@ class Player(object):
         self.givenName = givenName
         self.nationality = nationality
         self.headshot = headshot
-        self.teams = teams
+        self.teams = []
         self.type = type
     
     def formattedName(self):
