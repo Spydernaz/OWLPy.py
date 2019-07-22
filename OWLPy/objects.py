@@ -46,30 +46,27 @@ class Colors(object):
         self.tertiary = tertiary
 
 class Competitor(object):
-    def __init__(self, ):
+    def __init__(self, id, availableLanguages, handle, name, homeLocation, \
+                primaryColor, secondaryColor, game, attributes, attributesVersion, \
+                abbreviatedName, addressCountry, logo, icon, players, secondaryPhoto, type):
         """Model for a competitor/team and associated information"""
         self.id = id
         self.availableLanguages = availableLanguages
         self.handle = handle
         self.name = name
+        self.homeLocation = homeLocation
+        self.primaryColor = primaryColor
+        self.secondaryColor = secondaryColor
+        self.game = game
+        self.attributes = attributes
+        self.attributesVersion = attributesVersion
         self.abbreviatedName = abbreviatedName
+        self.addressCountry = addressCountry
         self.logo = logo
-        # self.hasFallback = hasFallback
-        self.location = location
-        self.players = []
-        for p in players:
-            #self.players.append(d.get_player(p["player"]["id"]))
-            #self.players.append(Player(**p))
-            pass
-        self.accounts = []
-        if accounts is not None:
-            for a in accounts:
-                pass
-                #self.accounts.append(Account(**a))
-        self.website = website
-        self.placement = placement
-        self.advantage = advantage
-        #self.records = Records(records)
+        self.icon = icon
+        self.players = players
+        self.secondaryPhoto = secondaryPhoto
+        self.type = type
     pass
 
 
