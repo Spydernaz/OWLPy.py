@@ -7,7 +7,7 @@ setup(
   author = 'Nathaniel Vala',
   author_email = 'nathanielvala@hotmail.com',
   url = 'https://github.com/spydernaz/OWLPy.py',
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',
+  download_url = 'https://github.com/Spydernaz/OWLPy.py/archive/0.01.tar.gz',
   keywords = ['API', 'OWL', 'Overwatch', 'Overwatch League'],
   install_requires=[
           'requests'
