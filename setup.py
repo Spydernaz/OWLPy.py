@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
   name = 'OWLPy',
-  version = '0.1',
+  version = '0.01',
   license='MIT',
   description = 'Python Driver and Models for the OWL API',
   author = 'Nathaniel Vala',
