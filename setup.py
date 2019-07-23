@@ -1,17 +1,14 @@
-from distutils.core import setup
-setup(
+import setuptools
+setuptools.setup(
   name = 'OWLPy',
-  version = '0.02.1',
+  version = '0.2.5',
   license='MIT',
   description = 'Python Driver and Models for the OWL API',
   author = 'Nathaniel Vala',
   author_email = 'nathanielvala@hotmail.com',
   url = 'https://github.com/spydernaz/OWLPy.py',
-  download_url = 'https://github.com/Spydernaz/OWLPy.py/archive/0.02.1.tar.gz',
   keywords = ['API', 'OWL', 'Overwatch', 'Overwatch League'],
-  install_requires=[
-          'requests'
-      ],
+  packages=setuptools.find_packages(),
   classifiers=[
     'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
     'Intended Audience :: Developers',

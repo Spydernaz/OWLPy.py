@@ -2,10 +2,16 @@ import requests
 from . import driver
 class Account(object):
     """Overwatch League teams and players each have their social media accounts for interacting with fans. Each Account object has an account ID, an account type, and an account URL."""
-    def __init__(self, id, type, url):
+    def __init__(self, id, accountType=None, value=None, competitorId=None, isPublic=None, type=None, url=None):
         self.id = id
-        self.type = type
-        self.url = url
+        if accountType:
+            self.type = accountType
+        else:
+            self.type = type
+        if value:
+            self.url = value
+        else:
+            self.url = url
     
     def _getlatestpost():
         pass
@@ -41,9 +47,10 @@ class Bracket(object):
 
 class Colors(object):
     def __init__(self, primary, secondary, tertiary):
-        self.primary = primary
-        self.secondary = secondary
-        self.tertiary = tertiary
+        """Colors in int"""
+        self.primary = int(primary["color"][1:], 16)
+        self.secondary = int(secondary["color"][1:], 16)
+        self.tertiary = int(tertiary["color"][1:], 16)
 
 class Competitor(object):
     def __init__(self, id, availableLanguages, handle, name, homeLocation, \
@@ -75,7 +82,6 @@ class Team(Competitor):
                 hasFallback, location, players, colors, accounts, website, \
                 placement, advantage, records):
         """Model for a team and associated information"""
-        self.driver = driver.Driver()
         self.id = id
         self.divisionId = divisionId
         self.handle = handle
@@ -84,10 +90,7 @@ class Team(Competitor):
         self.logo = logo
         self.hasFallback = hasFallback
         self.location = location
-        self.players = []
-        for p in players:
-            self.players.append(self.driver.get_player_by_id(p["id"]))
-            pass
+        self.players = players
         self.colors = Colors(colors["primary"], colors["secondary"], colors["tertiary"])
         self.accounts = []
         if accounts is not None:
@@ -170,7 +173,10 @@ class Player(object):
         self.handle = handle
         self.name = name
         self.homeLocation = homeLocation
-        self.accounts = accounts
+        self.accounts = []
+        if accounts is not None:
+            for a in accounts:
+                self.accounts.append(Account(**a))
         self.game = game
         self.attributes = attributes
         self.attributesVersion = attributesVersion
@@ -178,11 +184,15 @@ class Player(object):
         self.givenName = givenName
         self.nationality = nationality
         self.headshot = headshot
-        self.teams = []
+        self.teams = teams
         self.type = type
     
-    def formattedName(self):
+    def formatted_name(self):
         return("{}. {} (A.K.A {})".format(self.givenName[0], self.familyName, self.name))
+    
+    def get_team(self):
+        d = driver.Driver()
+        return  d.get_team_by_id(self.teams[0]["team"]["id"])
 
 
 class Records(object):
