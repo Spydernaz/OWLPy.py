@@ -12,8 +12,20 @@ assert str(type(player)) == "<class 'OWLPy.objects.Player'>"
 
 
 from OWLPy import Player
-player = d.get_player_by_name(name="SoOn")
+player = d.get_player_by_name(name="cruise")
 assert str(type(player)) == "<class 'OWLPy.objects.Player'>"
+assert player.name == "Kruise", "Failed, got {} instead of Kruise".format(player.name)
+
+from OWLPy import Player
+player = d.get_player_by_name(name="soon")
+assert str(type(player)) == "<class 'OWLPy.objects.Player'>"
+assert player.name == "SoOn"
+
+# SoOn should play for the Paris Eternal
+from OWLPy import Player
+player = d.get_player_by_name(name="soon")
+assert str(type(player)) == "<class 'OWLPy.objects.Player'>"
+assert player.get_team().name == "Paris Eternal"
 
 # # Test: Graceful Error if player is not found
 # player = d.get_player_by_id(id=6657789)
@@ -35,15 +47,28 @@ assert (player.formatted_name()) == "T. Tarlier (A.K.A SoOn)", "The first player
 print("All Player Tests passed")
 
 print("Testing Team Functions")
-# Test: Player should be of type Player
+# Test: Team should be of type Team
 from OWLPy import Team
 team = d.get_team_by_id(id=4523)
 assert str(type(team)) == "<class 'OWLPy.objects.Team'>"
 
-
+# Exact match
 from OWLPy import Team
-team = d.get_team_by_name(name="Dallas Fuel")
+team = d.get_team_by_name(name="Paris")
 assert str(type(team)) == "<class 'OWLPy.objects.Team'>"
+assert team.name == "Paris Eternal"
+
+# Partial match works 
+from OWLPy import Team
+team = d.get_team_by_name(name="Gladiators")
+assert str(type(team)) == "<class 'OWLPy.objects.Team'>"
+assert team.name == "Los Angeles Gladiators"
+
+# Fuzzy match works 
+from OWLPy import Team
+team = d.get_team_by_name(name="san fransico shock")
+assert str(type(team)) == "<class 'OWLPy.objects.Team'>"
+assert team.name == "San Francisco Shock"
 
 # # Test: Graceful Error if player is not found
 # player = d.get_player_by_id(id=6657789)
@@ -54,8 +79,8 @@ assert str(type(team)) == "<class 'OWLPy.objects.Team'>"
 
 
 # TEST: Get SoOn by player ID 3987
-team = d.get_team_by_id(id=4523)
-assert player.id == 3987, "The player ID should be 3987 but was {}".format(player.id)
+# team = d.get_team_by_id(id=4523)
+# assert player.id == 3987, "The player ID should be 3987 but was {}".format(player.id)
 
 # TEST: Player Soon should have a function formatted name
 # team = d.get_team_by_id(id=4523)

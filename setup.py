@@ -1,7 +1,7 @@
 import setuptools
 setuptools.setup(
   name = 'OWLPy',
-  version = '0.2.5',
+  version = '0.2.5.4',
   license='MIT',
   description = 'Python Driver and Models for the OWL API',
   author = 'Nathaniel Vala',
@@ -9,6 +9,9 @@ setuptools.setup(
   url = 'https://github.com/spydernaz/OWLPy.py',
   keywords = ['API', 'OWL', 'Overwatch', 'Overwatch League'],
   packages=setuptools.find_packages(),
+  install_requires=[
+    'requests', 'fuzzywuzzy'
+  ],
   classifiers=[
     'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
     'Intended Audience :: Developers',

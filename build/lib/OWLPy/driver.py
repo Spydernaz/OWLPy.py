@@ -15,20 +15,9 @@ class Driver(object):
 
     def get_player_by_name(self, name): 
         r = requests.get("{}/players".format(self.baseurl)).json()["content"]
-        player = None
-        score = 0
-        id = None
         for p in r:
-            predict = fuzz.token_set_ratio(p["name"].lower(),name.lower())
-            if p["name"].lower() == name.lower():
-                player = self.get_player_by_id(p["id"])
-                return player
-            elif (predict > score):
-                id = p["id"]
-                score = predict
-        if score > 80:
-            return self.get_player_by_id(id)
-
+            if p["name"] == name:
+                return Player(**p)
         raise PlayerNotFound()
 
 
@@ -40,18 +29,15 @@ class Driver(object):
     def get_team_by_name(self, name):
         r = requests.get("{}/v2/teams".format(self.baseurl)).json()["data"]
         team = None
-        score = 0
-        id = None
         for t in r:
-            predict = fuzz.token_set_ratio(t["name"].lower(),name.lower())
-            if t["name"].lower() == name.lower():
+            if t["name"] == name:
                 team = self.get_team_by_id(t["id"])
                 return team
-            elif (predict > score):
-                id = t["id"]
-                score = predict
-        if score > 80:
-            return self.get_team_by_id(id)
+            elif (fuzz.token_set_ratio(t["name"].lower(),name.lower()) > 80):
+                team = self.get_team_by_id(t["id"])
+                
+        if team:
+            return team
 
         raise TeamNotFound()
 
@@ -68,14 +54,3 @@ class Driver(object):
                 return Match(**m)
         raise MatchNotFound()
 
-    def get_next_match():
-        """gets the next match to be played by any team"""
-        pass
-
-    def get_schedule(self, team):
-        """gets the schedule for a team"""
-        pass
-
-    def get_next_round(self):
-        """shows all games to be played in the next round, if you mid round it will return the current round"""
-        pass
